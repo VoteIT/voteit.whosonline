@@ -11,7 +11,7 @@ class IActivityUtil(Interface):
             If any keywords are passed, the contents of them will be stored too.
         """
 
-    def maybe_mark(self, request, context, dt = None, **kw):
+    def maybe_mark(context, request, dt = None, **kw):
         """ Determine if context is within a meeting and wether there's a logged in user.
             Allows for the same overrides as mark_activity_for.
         """
