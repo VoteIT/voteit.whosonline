@@ -1,0 +1,10 @@
+<div id="whosonline">
+    <span tal:repeat="userdata userdatas">
+        <tal:def define="user api.get_user(userdata['userid'])">
+            <a href="${api.get_userinfo_url(user.userid)}" class="inlineinfo"
+               title="${user.title} (${user.userid})">
+                <img tal:replace="structure user.get_image_tag()"/>
+            </a>
+        </tal:def>
+    </span>
+</div>
