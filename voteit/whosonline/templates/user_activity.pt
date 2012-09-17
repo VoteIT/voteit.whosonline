@@ -1,0 +1,13 @@
+<tal:main xmlns:i18n="http://xml.zope.org/namespaces/i18n" i18n:domain="voteit.whosonline">
+<h6><span i18n:translate="">Latest meeting activity</span>:</h6>
+<div class="list">
+    <tal:iterate repeat="item userdatas">
+        <tal:several_meetings
+            condition="not api.meeting"
+            define="meeting_brain api.get_metadata_for_query(uid=item['m_uid'])[0]">
+            <a href="${meeting_brain.path}" tal:content="truncate(meeting_brain.title, 100)">Title</a>
+        </tal:several_meetings>
+        <div class="meta listitem">${api.dt_util.relative_time_format(item['dt'])}</div>
+    </tal:iterate>
+</div>
+</tal:main>

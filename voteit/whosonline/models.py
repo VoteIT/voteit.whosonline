@@ -19,6 +19,7 @@ class ActivityUtil(object):
         assert isinstance(meeting_uid, basestring)
         kw['dt'] = dt and dt or utcnow()
         kw['userid'] = userid
+        kw['m_uid'] = meeting_uid
         try:
             us = self._storage[meeting_uid][userid]
         except KeyError:
@@ -41,4 +42,17 @@ class ActivityUtil(object):
         if meeting_uid not in self._storage:
             return ()
         res = sorted(self._storage[meeting_uid].values(), key = lambda x: x['dt'], reverse = True)
+        return limit and tuple(res[:limit]) or tuple(res)
+
+    def latest_user_activity(self, userid, meeting_uid = None, limit = 5):
+        if meeting_uid is not None:
+            try:
+                return tuple([self._storage[meeting_uid][userid]])
+            except KeyError:
+                return ()
+        res = []
+        for m in self._storage.values():
+            if userid in m:
+                res.append(m[userid])
+        res = sorted(res, key = lambda x: x['dt'], reverse = True)
         return limit and tuple(res[:limit]) or tuple(res)

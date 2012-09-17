@@ -4,6 +4,7 @@ from pyramid import testing
 from pyramid.events import ContextFound
 from zope.interface.verify import verifyClass
 from zope.interface.verify import verifyObject
+from voteit.core.testing_helpers import bootstrap_and_fixture
 
 from voteit.whosonline.interfaces import IActivityUtil
 
@@ -40,7 +41,7 @@ class WhosOnlineTests(TestCase):
         from datetime import datetime
         obj = self._cut()
         obj.mark_activity_for('tester', 'm_uid', somedata = True, others = False)
-        self.assertEqual(set(obj._storage['m_uid']['tester'].keys()), set(['somedata', 'dt', 'others', 'userid']))
+        self.assertEqual(set(obj._storage['m_uid']['tester'].keys()), set(['somedata', 'dt', 'others', 'userid', 'm_uid']))
         self.assertIsInstance(obj._storage['m_uid']['tester']['dt'], datetime)
 
     def test_maybe_mark(self):
@@ -96,6 +97,30 @@ class WhosOnlineTests(TestCase):
         res = [x['userid'] for x in obj.latest_activity('m_uid')]
         self.assertEqual(res, ['5', '3', '1', '2', '4'])
 
+    def test_latest_user_activity_uid_specified(self):
+        obj = self._cut()
+        obj.mark_activity_for('1', 'm_uid')
+        obj.mark_activity_for('2', 'm_uid')
+        obj.mark_activity_for('3', 'm_uid')
+        obj.mark_activity_for('2', 'm_uid2')
+        self.assertEqual(len(obj.latest_user_activity('2', 'm_uid')), 1)
+
+    def test_latest_user_activity_no_meeting_no_activity_for_user(self):
+        obj = self._cut()
+        self.assertFalse(obj.latest_user_activity('2'))
+
+    def test_latest_user_activity_meeting_specified_no_activity_for_user(self):
+        obj = self._cut()
+        self.assertFalse(obj.latest_user_activity('2', 'meeting_uid'))
+
+    def test_latest_user_activity_no_uid(self):
+        obj = self._cut()
+        obj.mark_activity_for('1', 'm_uid')
+        obj.mark_activity_for('2', 'm_uid')
+        obj.mark_activity_for('3', 'm_uid')
+        obj.mark_activity_for('2', 'm_uid2')
+        self.assertEqual(2, len(obj.latest_user_activity('2')))
+
     def test_subscriber_should_mark_activity(self):
         self.config.include('voteit.whosonline')
         self.config.testing_securitypolicy(userid='ms_tester')
@@ -117,10 +142,10 @@ class WhosOnlineViewTests(TestCase):
     def tearDown(self):
         testing.tearDown()
 
-    @property
-    def _fut(self):
-        from voteit.whosonline.views import whosonline
-        return whosonline
+#    @property
+#    def _fut(self):
+#        from voteit.whosonline.views import whosonline
+#        return whosonline
 
     @property
     def _meeting(self):
@@ -136,4 +161,31 @@ class WhosOnlineViewTests(TestCase):
         res = render_view_action(context, request, 'navigation_sections', 'whosonline', api = APIView(context, request)) #Dummy
         self.assertIsInstance(res, unicode)
 
+
+class LatestActivityViewTests(TestCase):
+
+    def setUp(self):
+        self.config = testing.setUp()
+
+    def tearDown(self):
+        testing.tearDown()
+
+#    @property
+#    def _fut(self):
+#        from voteit.whosonline.views import latest_activity
+#        return latest_activity
+
+    def _fixture(self):
+        return bootstrap_and_fixture(self.config)
+
+    def test_integration(self):
+        from betahaus.viewcomponent import render_view_action
+        from voteit.core.views.api import APIView
+        from voteit.core.models.meeting import Meeting
+        self.config.include('voteit.whosonline')
+        root = self._fixture()
+        context = root['users']['admin']
+        request = testing.DummyRequest()
+        res = render_view_action(context, request, 'user_info', 'latest_activity', api = APIView(context, request)) #Dummy
+        self.assertIsInstance(res, unicode)
 

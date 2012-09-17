@@ -17,10 +17,17 @@ class IActivityUtil(Interface):
         """
 
     def latest_activity(meeting_uid, limit = 5):
-        """ Return a tuple of dicts containing info on latest info within a meeting.
+        """ Return a tuple of OOBTrees containing info on latest info within a meeting.
             A limit value will cut off result. 0 means all.
             
-            Returned dict will look something like:
+            It will look something like this if converted to a dict:
             
             ({'fred':{'dt':<utc datetime>, 'someother_key': 'message'}}, <etc...>)
+        """
+
+    def latest_user_activity(userid, meeting_uid = None, limit = 5):
+        """ Return activity for a specific user. If meeting_uid is specified,
+            only that meeting will be examined. If not, all will be returned
+            up to limit.
+            Will always return a tuple, same as latest_activity
         """
