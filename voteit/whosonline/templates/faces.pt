@@ -1,4 +1,8 @@
-<div id="whosonline">
+<div xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+     i18n:domain="voteit.core"
+     class="block"
+     id="whosonline">
+    <h6 i18n:translate="">Who's online</h6>
     <span tal:repeat="userdata userdatas">
         <tal:def define="user api.get_user(userdata['userid'])">
             <a href="${api.get_userinfo_url(user.userid)}" class="inlineinfo"
