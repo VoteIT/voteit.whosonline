@@ -53,7 +53,15 @@ class WhosOnlineTests(TestCase):
         self.assertEqual(len(obj._storage), 1)
         self.assertIn('ms_tester', obj._storage['uid'])
 
-    def test_dont_mark_anon(self):
+    def test_maybe_mark_dont_mark_anon(self):
+        request = testing.DummyRequest()
+        context = self._meeting()
+        obj = self._cut()
+        obj.maybe_mark(context, request)
+        self.assertEqual(len(obj._storage), 0)
+
+    def test_maybe_mark_dont_mark_if_no_view_perm(self):
+        self.config.testing_securitypolicy(userid='ms_tester', permissive = False)
         request = testing.DummyRequest()
         context = self._meeting()
         obj = self._cut()
@@ -189,3 +197,14 @@ class LatestActivityViewTests(TestCase):
         res = render_view_action(context, request, 'user_info', 'latest_activity', api = APIView(context, request)) #Dummy
         self.assertIsInstance(res, unicode)
 
+
+
+def _security_policy(self, userid=None, callback=None):
+    from pyramid.authentication import CallbackAuthenticationPolicy
+    class MyAuthenticationPolicy(CallbackAuthenticationPolicy):
+        def unauthenticated_userid(self, request):
+            return userid
+    policy = MyAuthenticationPolicy()
+    policy.debug = True
+    policy.callback = callback
+    return policy

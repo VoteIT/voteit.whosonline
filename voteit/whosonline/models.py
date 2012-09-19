@@ -1,9 +1,11 @@
 from BTrees.OOBTree import OOBTree
 from pyramid.security import authenticated_userid
+from pyramid.security import has_permission
 from pyramid.traversal import find_interface
 from zope.interface import implements
 from voteit.core.models.date_time_util import utcnow
 from voteit.core.models.interfaces import IMeeting
+from voteit.core.security import VIEW
 
 from voteit.whosonline.interfaces import IActivityUtil
 
@@ -33,6 +35,8 @@ class ActivityUtil(object):
     def maybe_mark(self, context, request, dt = None, **kw):
         userid = authenticated_userid(request)
         if not userid:
+            return
+        if not has_permission(VIEW, context, request):
             return
         meeting = find_interface(context, IMeeting)
         if meeting:
