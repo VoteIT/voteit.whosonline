@@ -1,5 +1,5 @@
 <div xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-     i18n:domain="voteit.core"
+     i18n:domain="voteit.whosonline"
      class="block"
      id="whosonline">
     <h6 i18n:translate="">Who's online</h6>

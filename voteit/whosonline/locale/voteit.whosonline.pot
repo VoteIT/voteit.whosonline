@@ -1,0 +1,28 @@
+# Translations template for voteit.whosonline.
+# Copyright (C) 2012 ORGANIZATION
+# This file is distributed under the same license as the voteit.whosonline
+# project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: voteit.whosonline 0.1\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2012-09-19 14:14+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: voteit/whosonline/templates/faces.pt:5
+msgid "Who's online"
+msgstr ""
+
+#: voteit/whosonline/templates/user_activity.pt:2
+msgid "Latest meeting activity"
+msgstr ""
+
