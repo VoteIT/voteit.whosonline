@@ -16,7 +16,7 @@ class IActivityUtil(Interface):
             Allows for the same overrides as mark_activity_for.
         """
 
-    def latest_activity(meeting_uid, limit = 5):
+    def latest_activity(meeting_uid, userid = None, limit = 5):
         """ Return a tuple of OOBTrees containing info on latest info within a meeting.
             A limit value will cut off result. 0 means all.
             

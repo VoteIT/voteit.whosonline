@@ -11,7 +11,7 @@ from voteit.whosonline.interfaces import IActivityUtil
 def whosonline(context, request, va, **kwargs):
     api = kwargs['api']
     util = request.registry.getUtility(IActivityUtil)
-    userdatas = util.latest_activity(api.meeting.uid, limit = 5)
+    userdatas = util.latest_activity(api.meeting.uid, userid = api.userid, limit = 5)
     if not userdatas:
         return u""
     response = dict(

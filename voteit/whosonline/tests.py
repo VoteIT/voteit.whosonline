@@ -79,6 +79,13 @@ class WhosOnlineTests(TestCase):
         self.assertEqual(len(obj.latest_activity('404_uid')), 0)
         self.assertEqual(len(obj.latest_activity('m_uid', limit=2)), 2)
 
+    def test_latest_activity_removes_authenticated_userid_from_result(self):
+        obj = self._cut()
+        obj.mark_activity_for('ms_tester', 'm_uid')
+        obj.mark_activity_for('mr_tester', 'm_uid')
+        self.assertEqual(len(obj.latest_activity('m_uid', userid = 'sven')), 2)
+        self.assertEqual(len(obj.latest_activity('m_uid', userid = 'ms_tester')), 1)
+
     def test_latest_activity_limit_pics_correct(self):
         obj = self._cut()
         obj.mark_activity_for('1', 'm_uid')
@@ -139,7 +146,8 @@ class WhosOnlineTests(TestCase):
         event = ContextFound(request)
         request.registry.notify(event)
         util = request.registry.getUtility(IActivityUtil)
-        self.assertEqual(len(util.latest_activity('m_uid')), 1)
+        self.assertEqual(len(util._storage['m_uid'].values()), 1)
+
 
 
 class WhosOnlineViewTests(TestCase):
@@ -196,15 +204,3 @@ class LatestActivityViewTests(TestCase):
         request = testing.DummyRequest()
         res = render_view_action(context, request, 'user_info', 'latest_activity', api = APIView(context, request)) #Dummy
         self.assertIsInstance(res, unicode)
-
-
-
-def _security_policy(self, userid=None, callback=None):
-    from pyramid.authentication import CallbackAuthenticationPolicy
-    class MyAuthenticationPolicy(CallbackAuthenticationPolicy):
-        def unauthenticated_userid(self, request):
-            return userid
-    policy = MyAuthenticationPolicy()
-    policy.debug = True
-    policy.callback = callback
-    return policy

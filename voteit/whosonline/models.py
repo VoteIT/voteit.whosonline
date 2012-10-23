@@ -42,10 +42,11 @@ class ActivityUtil(object):
         if meeting:
             self.mark_activity_for(userid, meeting.uid, dt = dt, **kw)
 
-    def latest_activity(self, meeting_uid, limit = 5):
+    def latest_activity(self, meeting_uid, userid = None, limit = 5):
         if meeting_uid not in self._storage:
             return ()
-        res = sorted(self._storage[meeting_uid].values(), key = lambda x: x['dt'], reverse = True)
+        res = [v for (k, v) in self._storage[meeting_uid].items() if k != userid]
+        res = sorted(res, key = lambda x: x['dt'], reverse = True)
         return limit and tuple(res[:limit]) or tuple(res)
 
     def latest_user_activity(self, userid, meeting_uid = None, limit = 5):
