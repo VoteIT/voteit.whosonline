@@ -3,11 +3,12 @@ from betahaus.viewcomponent import view_action
 from voteit.core.models.interfaces import IMeeting
 from voteit.core.models.interfaces import IUser
 from voteit.core.helpers import strip_and_truncate
+from voteit.core.security import VIEW
 
 from voteit.whosonline.interfaces import IActivityUtil
 
 
-@view_action('navigation_sections', 'whosonline', containment = IMeeting)
+@view_action('navigation_sections', 'whosonline', containment = IMeeting, permission = VIEW)
 def whosonline(context, request, va, **kwargs):
     api = kwargs['api']
     util = request.registry.getUtility(IActivityUtil)
@@ -20,7 +21,7 @@ def whosonline(context, request, va, **kwargs):
     )
     return render('templates/faces.pt', response, request = request)
 
-@view_action('user_info', 'latest_activity', interface = IUser)
+@view_action('user_info', 'latest_activity', interface = IUser, permission = VIEW)
 def latest_activity(context, request, va, **kwargs):
     """ Display latest activity within the current meeting, if one is present.
         Otherwise display all meeting activities.

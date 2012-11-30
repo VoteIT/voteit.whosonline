@@ -169,6 +169,7 @@ class WhosOnlineViewTests(TestCase):
         return Meeting
 
     def test_integration(self):
+        #FIXME: This test bypasses permission checks. That's a bug in viewactions that need to be fixed.
         from betahaus.viewcomponent import render_view_action
         from voteit.core.views.api import APIView
         self.config.include('voteit.whosonline')
@@ -195,6 +196,7 @@ class LatestActivityViewTests(TestCase):
         return bootstrap_and_fixture(self.config)
 
     def test_integration(self):
+        #FIXME: This test bypasses permission checks. That's a bug in viewactions that need to be fixed.
         from betahaus.viewcomponent import render_view_action
         from voteit.core.views.api import APIView
         from voteit.core.models.meeting import Meeting
