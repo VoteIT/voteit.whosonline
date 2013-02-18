@@ -175,7 +175,7 @@ class WhosOnlineViewTests(TestCase):
         self.config.include('voteit.whosonline')
         context = self._meeting()
         request = testing.DummyRequest()
-        res = render_view_action(context, request, 'navigation_sections', 'whosonline', api = APIView(context, request)) #Dummy
+        res = render_view_action(context, request, 'sidebar', 'whosonline', api = APIView(context, request)) #Dummy
         self.assertIsInstance(res, unicode)
 
 

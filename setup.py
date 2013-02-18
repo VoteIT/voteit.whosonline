@@ -29,12 +29,13 @@ setup(name='voteit.whosonline',
       tests_require=requires,
       test_suite="voteit.whosonline",
       entry_points = """\
+      [fanstatic.libraries]
+      voteit_whosonline = voteit.whosonline.fanstaticlib:voteit_whosonline
       """,
       paster_plugins=['pyramid'],
       message_extractors = { '.': [
               ('**.py',   'lingua_python', None ),
               ('**.pt',   'lingua_xml', None ),
-              ('**.zcml',   'lingua_zcml', None ),
               ]},
       )
 

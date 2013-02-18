@@ -1,0 +1,8 @@
+#faces {
+    margin-left: -7px;
+}
+#faces a {
+    display: block;
+    float: left;
+    margin-left: 7px;
+}

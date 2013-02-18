@@ -1,14 +1,17 @@
 <div xmlns:i18n="http://xml.zope.org/namespaces/i18n"
      i18n:domain="voteit.whosonline"
-     class="block"
+     class="sidebar_block"
      id="whosonline">
     <h6 i18n:translate="">Who's online</h6>
-    <span tal:repeat="userdata userdatas">
-        <tal:def define="user api.get_user(userdata['userid'])">
-            <a href="${api.get_userinfo_url(user.userid)}" class="inlineinfo"
-               title="${user.title} (${user.userid})">
-                <img tal:replace="structure user.get_image_tag()"/>
-            </a>
-        </tal:def>
-    </span>
+    <div id="faces">
+        <tal:face tal:repeat="userdata userdatas">
+            <tal:def define="user api.get_user(userdata['userid'])">
+                <a href="${api.get_userinfo_url(user.userid)}" class="inlineinfo"
+                   title="${user.title} (${user.userid})">
+                    <img tal:replace="structure user.get_image_tag()"/>
+                </a>
+            </tal:def>
+        </tal:face>
+        <div class="clear"><!-- --></div>
+    </div>
 </div>

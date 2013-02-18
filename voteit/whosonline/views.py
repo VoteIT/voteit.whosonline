@@ -6,15 +6,16 @@ from voteit.core.helpers import strip_and_truncate
 from voteit.core.security import VIEW
 
 from voteit.whosonline.interfaces import IActivityUtil
+from voteit.whosonline.fanstaticlib import voteit_whosonline_css
 
-
-@view_action('navigation_sections', 'whosonline', containment = IMeeting, permission = VIEW)
+@view_action('sidebar', 'whosonline', containment = IMeeting, permission = VIEW)
 def whosonline(context, request, va, **kwargs):
     api = kwargs['api']
     util = request.registry.getUtility(IActivityUtil)
-    userdatas = util.latest_activity(api.meeting.uid, userid = api.userid, limit = 5)
+    userdatas = util.latest_activity(api.meeting.uid, userid = api.userid, limit = 8)
     if not userdatas:
         return u""
+    voteit_whosonline_css.need()
     response = dict(
         api = api,
         userdatas = userdatas,
