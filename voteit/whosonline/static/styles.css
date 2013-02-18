@@ -6,3 +6,10 @@
     float: left;
     margin-left: 7px;
 }
+.online {
+    background: url(/whosonline_static/whos_online.png) left top no-repeat;
+    display: block;
+    line-height: 34px;
+    height: 34px;
+    padding-left: 40px;
+}

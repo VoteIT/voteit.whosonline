@@ -2,7 +2,9 @@
      i18n:domain="voteit.whosonline"
      class="sidebar_block"
      id="whosonline">
-    <h6 i18n:translate="">Who's online</h6>
+    <h5 class="header">
+        <span class="online" i18n:translate="">Online</span>
+    </h5>
     <div id="faces">
         <tal:face tal:repeat="userdata userdatas">
             <tal:def define="user api.get_user(userdata['userid'])">
