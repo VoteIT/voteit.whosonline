@@ -22,12 +22,18 @@ def whosonline(context, request, va, **kwargs):
     )
     return render('templates/faces.pt', response, request = request)
 
-@view_action('user_info', 'latest_activity', interface = IUser, permission = VIEW)
+@view_action('user_info', 'latest_activity', interface = IUser)
 def latest_activity(context, request, va, **kwargs):
     """ Display latest activity within the current meeting, if one is present.
         Otherwise display all meeting activities.
     """
     api = kwargs['api']
+    #Meeting permission check
+    if api.meeting and not api.context_has_permission(VIEW, api.meeting):
+        return u""
+    #Outside of meeting permission check
+    if not api.meeting and not api.context_has_permission(VIEW, context):
+        return u""
     m_uid = api.meeting and api.meeting.uid or None
     util = request.registry.getUtility(IActivityUtil)
     userdatas = util.latest_user_activity(context.userid, m_uid, limit = 5)

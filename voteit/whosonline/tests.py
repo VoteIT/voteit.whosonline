@@ -201,6 +201,7 @@ class LatestActivityViewTests(TestCase):
         from voteit.core.views.api import APIView
         from voteit.core.models.meeting import Meeting
         self.config.include('voteit.whosonline')
+        self.config.include('voteit.core.testing_helpers.register_security_policies')
         root = self._fixture()
         context = root['users']['admin']
         request = testing.DummyRequest()
