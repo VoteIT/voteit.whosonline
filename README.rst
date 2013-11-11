@@ -3,7 +3,7 @@ VoteIT Who's online
 ===================
 
 This is a plugin for VoteIT that tracks who's online within meetings.
-It displays the profile pictures of 5 users who were the latest online.
+It displays the profile pictures of a number of users who were the latest online. (Default 8)
 
 Online in this context means simply loading a page, or do something that generates a request.
 
