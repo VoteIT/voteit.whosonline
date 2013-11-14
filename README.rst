@@ -2,6 +2,9 @@
 VoteIT Who's online
 ===================
 
+.. image:: https://travis-ci.org/VoteIT/voteit.whosonline.png?branch=master
+   :target: https://travis-ci.org/VoteIT/voteit.whosonline
+
 This is a plugin for VoteIT that tracks who's online within meetings.
 It displays the profile pictures of a number of users who were the latest online. (Default 8)
 
