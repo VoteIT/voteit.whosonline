@@ -10,7 +10,7 @@
             <tal:def define="user api.get_user(userdata['userid'])">
                 <a href="${api.get_userinfo_url(user.userid)}" class="inlineinfo"
                    title="${user.title} (${user.userid})">
-                    <img tal:replace="structure user.get_image_tag()"/>
+                    <img tal:replace="structure user.get_image_tag(request = request)"/>
                 </a>
             </tal:def>
         </tal:face>
